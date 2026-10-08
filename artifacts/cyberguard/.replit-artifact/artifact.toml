@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "CyberGuard"
+description = "A personal cybersecurity toolkit with browser-based suspicious-link checks, private password-strength feedback, and a practical security checklist."
+version = "1.0.0"
+id = "artifacts/cyberguard"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25381
+
+[services.development]
+run = "pnpm --filter @workspace/cyberguard run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/cyberguard", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/cyberguard/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25381"
+BASE_PATH = "/"
